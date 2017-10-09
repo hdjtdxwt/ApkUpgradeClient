@@ -20,15 +20,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
 import java.io.File;
 
 import cn.epsit.apkupgradeclient.bean.CheckResponse;
+import cn.epsit.apkupgradeclient.bean.IpResponse;
 import cn.epsit.apkupgradeclient.net.ApiEngine;
 import cn.epsit.apkupgradeclient.net.ApiPublishService;
+import cn.epsit.apkupgradeclient.net.ApiService;
 import cn.epsit.apkupgradeclient.util.VersionUtil;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -86,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
         int versionCode = VersionUtil.getAppVersionCode(getApplicationContext());
         Log.e(TAG,"versionCode="+versionCode+"  thread="+Thread.currentThread().getName());
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiPublishService.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiPublishService.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
         Log.e(TAG,"retrofit==null  ? "+(retrofit==null));
 
         ApiPublishService apiService = retrofit.create(ApiPublishService.class);
@@ -127,6 +141,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });*/
+
+        /*Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.124:8080/ApkUpgradeServer/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        ApiService apiService = retrofit.create(ApiService.class);
+        //apiService.getIpInfo("63.223.108.42")
+        apiService.checkUpgrade(1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CheckResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e(TAG,"onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG,"onError=>"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(CheckResponse ipResponse) {
+                        Log.e(TAG,"onNext--------=======");
+                    }
+                });*/
     }
 
 }

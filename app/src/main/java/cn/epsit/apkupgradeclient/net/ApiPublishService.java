@@ -2,7 +2,9 @@ package cn.epsit.apkupgradeclient.net;
 
 
 import cn.epsit.apkupgradeclient.bean.CheckResponse;
+import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -29,6 +31,8 @@ public interface ApiPublishService {
     */
 
     //获取广播播报内容
-    @POST("CheckUpgradeServlet")
+    @GET("http://192.168.1.124:8080/ApkUpgradeServer/CheckUpgradeServlet")
     Observable<CheckResponse> checkUpgrade(@Query("versionCode") int versionCode);
+
+    //baseUrl和这个post的路径拼接的换要正好可以访问到，也就是要自己注意 斜杆 的问题 ，是在baseUrl最后加/还是在post的路径最开头加/自己决定，反正都可以，要能正确访问到路径就是
 }
