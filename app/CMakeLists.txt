@@ -2,27 +2,22 @@ cmake_minimum_required(VERSION 3.4.1)
 
 #添加bzip2目录，为构建添加一个子路径
 
-add_library( # Sets the name of the library.
+add_library(
              native-lib
 
-             # Sets the library as a shared library.
              SHARED
 
-             # Provides a relative path to your source file(s).
              src/main/cpp/bspatch.c
-             #src/main/cpp/bsdiff.c
              )
 
 
-find_library( # Sets the name of the path variable.
+find_library(
               log-lib
 
               log )
 
 
-target_link_libraries( # Specifies the target library.
+target_link_libraries(
                        native-lib
 
-                       # Links the target library to the log library
-                       # included in the NDK.
                        ${log-lib} )

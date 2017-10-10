@@ -15,8 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.plugins.RxJavaErrorHandler;
 import rx.plugins.RxJavaPlugins;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * 网络请求控制类
  * Created by Nicholas on 2016/10/30.
@@ -27,19 +25,19 @@ public class ApiEngine {
     private Retrofit retrofit;
     OkHttpClient client;
     static {
-        RxJavaPlugins.getInstance().registerErrorHandler(new RxJavaErrorHandler() {
+       /* RxJavaPlugins.getInstance().registerErrorHandler(new RxJavaErrorHandler() {
             @Override
             public void handleError(Throwable e) {
                 if(e!=null) {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
     }
     private ApiEngine() {
 
         //日志拦截器
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         client = new OkHttpClient.Builder()
@@ -58,12 +56,12 @@ public class ApiEngine {
         //构建Retrofit对象
         //然后将刚才设置好的okHttp对象,通过retrofit.client()方法 设置到retrofit中去
         retrofit = new Retrofit.Builder()
-                .baseUrl(ApiPublishService.BASE_URL)
+                .baseUrl(ApiService.BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        Log.e("main","retrofit==null ??? "+(retrofit==null));
+        Log.e("main","retrofit==null ??? "+(retrofit==null));*/
     }
 
     public static ApiEngine getInstance() {
@@ -77,9 +75,9 @@ public class ApiEngine {
         return apiEngine;
     }
 
-    public ApiPublishService getApiService() {
+    public ApiService getApiService() {
         Log.e("main","retrofit==null--------->"+(retrofit==null));
-        return retrofit.create(ApiPublishService.class);
+        return retrofit.create(ApiService.class);
     }
 
 }

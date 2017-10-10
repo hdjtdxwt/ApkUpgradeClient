@@ -10,7 +10,7 @@ __FBSDID("$FreeBSD: src/usr.bin/bsdiff/bspatch/bspatch.c,v 1.1 2005/08/06 01:59:
 #include <unistd.h>
 #include <fcntl.h>
 #include <jni.h>
-
+#include "cn_epsit_apkupgradeclient_util_BatchUtil.h"
 // bzip2
 #include "bzip2/bzlib.c"
 #include "bzip2/crctable.c"
@@ -21,7 +21,13 @@ __FBSDID("$FreeBSD: src/usr.bin/bsdiff/bspatch/bspatch.c,v 1.1 2005/08/06 01:59:
 #include "bzip2/huffman.c"
 
 
+#include <android/log.h>
+#include <jni.h>
+#include <stdio.h>
 
+
+#define  LOG_TAG    "main"
+#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
 
 static off_t offtin(u_char *buf)
@@ -190,9 +196,13 @@ int bspatch_main(int argc,char * argv[])
 
     return 0;
 }
-//合并
 
-JNIEXPORT void JNICALL  Java_cn_epsit_apkupgradclient_util_BatchUtil_batch
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+//合并
+JNIEXPORT void JNICALL Java_cn_epsit_apkupgradeclient_util_BatchUtil_batch
   (JNIEnv *env, jclass jcls, jstring oldfile_jstr, jstring newfile_jstr, jstring patchfile_jstr){
 	int argc = 4;
     char* oldfile = (char*)(*env)->GetStringUTFChars(env, oldfile_jstr, NULL);
@@ -205,13 +215,17 @@ JNIEXPORT void JNICALL  Java_cn_epsit_apkupgradclient_util_BatchUtil_batch
 	argv[1] = oldfile;
 	argv[2] = newfile;
 	argv[3] = patchfile;
-
+    LOGE("cpp---oldfile--------------->%s",oldfile);
+    LOGE("cpp---newfile--------------->%s",newfile);
+    LOGE("cpp---patchfile--------------->%s",patchfile);
 	bspatch_main(argc,argv);
-
+    LOGE("ncpp---after    bspatch_mai---------------success-");
 	(*env)->ReleaseStringUTFChars(env, oldfile_jstr, oldfile);
 	(*env)->ReleaseStringUTFChars(env, newfile_jstr, newfile);
 	(*env)->ReleaseStringUTFChars(env, patchfile_jstr, patchfile);
 }
-
+#ifdef __cplusplus
+}
+#endif
 
 

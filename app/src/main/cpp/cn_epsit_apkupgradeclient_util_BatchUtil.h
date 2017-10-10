@@ -15,14 +15,6 @@ extern "C" {
 JNIEXPORT void JNICALL Java_cn_epsit_apkupgradeclient_util_BatchUtil_batch
   (JNIEnv *, jclass, jstring, jstring, jstring);
 
-/*
- * Class:     cn_epsit_apkupgradeclient_util_BatchUtil
- * Method:    diff
- * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
- */
-/*JNIEXPORT void JNICALL Java_cn_epsit_apkupgradeclient_util_BatchUtil_diff
-  (JNIEnv *, jclass, jstring, jstring, jstring);*/
-
 #ifdef __cplusplus
 }
 #endif
